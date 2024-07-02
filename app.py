@@ -5,7 +5,7 @@ from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import numpy as np
 import cv2
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
-import av
+
 
 # Load the trained model
 model = load_model('PlantDiseaseModel.h5')
