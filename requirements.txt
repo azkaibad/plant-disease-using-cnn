@@ -2,4 +2,4 @@ numpy==1.26.4
 pandas==1.5.3
 streamlit
 tensorflow==2.16.1
-cv2
+cv2==4.9.0
