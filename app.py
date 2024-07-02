@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 import numpy as np
-import cv2
+from PIL import Image
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
 
 
@@ -32,12 +32,26 @@ def predict_image(image):
 
 
 def predict_image_array(image_array):
-    img_array = cv2.resize(image_array, (128, 128))
+    # Konversi NumPy array ke objek Image (diasumsikan image_array adalah array NumPy)
+    image = Image.fromarray(image_array)
+
+    # Resize gambar ke ukuran 128x128
+    resized_image = image.resize((128, 128))
+
+    # Konversi ke array NumPy dan normalisasi
+    img_array = np.array(resized_image)
     img_array = img_array / 255.0
+
+    # Menambahkan dimensi baru untuk batch (1, 128, 128, 3) jika diperlukan
     img_array = np.expand_dims(img_array, axis=0)
+
+    # Lakukan prediksi menggunakan model
     prediction = model.predict(img_array)
+
+    # Ambil kelas prediksi dan label
     predicted_class = np.argmax(prediction, axis=1)
     predicted_label = categories[predicted_class[0]]
+
     return predicted_label
 
 
